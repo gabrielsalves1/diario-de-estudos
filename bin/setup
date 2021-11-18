@@ -13,9 +13,10 @@ db = SQLite3::Database.open "db/database.db"
 db.execute <<~SQL
 CREATE TABLE IF NOT EXISTS Diario(
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    TITULO varchar(255),
-    CATEGORIA varchar(255),
-    DESCRICAO varchar(255)
+    TITULO varchar(100),
+    CATEGORIA varchar(100),
+    DESCRICAO varchar(255),
+    STATUSDIARIO varchar(30)
 );
 SQL
 
