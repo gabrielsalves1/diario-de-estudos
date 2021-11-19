@@ -106,6 +106,8 @@ class StudyDiary
                 itens.map {|item|
                     puts "Id: #{item['ID']} - Título: #{item['TITULO']}, Categoria: #{item['CATEGORIA']}, Descrição: #{item['DESCRICAO']}, Status: #{item['STATUSDIARIO']}"
                 }
+
+                menu()
             elsif opcao == 7
                 print "Digite o Id do item que deverá ser finalizado:  "
                 idItemFinalizado = gets.chomp()
@@ -116,7 +118,7 @@ class StudyDiary
 
                 menu()
             else
-                puts "Opção inválida, selecione uma opção de 1 à 4"
+                puts "Opção inválida, selecione uma opção de 1 à 7"
 
                 menu()
             end
