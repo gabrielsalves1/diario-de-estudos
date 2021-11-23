@@ -2,8 +2,17 @@ require_relative "study_item.rb"
 require_relative "category.rb"
 
 require 'sqlite3'
+require 'io/console'
 
 class StudyDiary
+    NEWITEM = 1
+    SEARCHALLITENS = 2
+    SEARCHITEM = 3
+    EXIT = 4
+    DELETE = 5
+    FINISHEDITEMS = 6
+    FINISHITEM = 7
+
     def cadastraItem(titulo, categoria, descricao, statusDiario)
         item = StudyItem.new({titulo: titulo, categoria: categoria, descricao: descricao, statusDiario: statusDiario})
 
@@ -16,19 +25,22 @@ class StudyDiary
     end
 
     def menu()
-        puts "\n[1] Cadastrar um item para estudar"
-        puts "[2] Ver todos os itens cadastrados"
-        puts "[3] Buscar um item de estudo"
-        puts "[4] Sair"
-        puts "[5] Deletar item cadastrado"
-        puts "[6] Listar itens concluídos"
-        puts "[7] Finalizar item de estudo"
+        puts <<~MENU
+        \n
+        [#{NEWITEM}] Cadastrar um item para estudar
+        [#{SEARCHALLITENS}] Ver todos os itens cadastrados
+        [#{SEARCHITEM}] Buscar um item de estudo
+        [#{EXIT}] Sair
+        [#{DELETE}] Deletar item cadastrado
+        [#{FINISHEDITEMS}] Listar itens concluídos
+        [#{FINISHITEM}] Finalizar item de estudo
+        MENU
     
         print "\nEscolha uma opção: "
         opcao = gets.chomp().to_i
 
         while true
-            if opcao == 1
+            if opcao == NEWITEM
                 print "Digite o título do item: "
                 tituloItem = gets.chomp()
                 print "Digite a categoria do item: "
@@ -40,7 +52,7 @@ class StudyDiary
 
                 cadastraItem(tituloItem, categoriaItem, descricaoItem, statusDiarioItem)
                 menu()
-            elsif opcao == 2
+            elsif opcao == SEARCHALLITENS
                 db = SQLite3::Database.open "db/database.db"
                 db.results_as_hash = true
                 itens = db.execute "SELECT ID, TITULO, CATEGORIA, DESCRICAO, STATUSDIARIO FROM Diario"
@@ -50,8 +62,10 @@ class StudyDiary
                     puts "Id: #{item['ID']} - Título: #{item['TITULO']}, Categoria: #{item['CATEGORIA']}, Descrição: #{item['DESCRICAO']}, Status: #{item['STATUSDIARIO']}"
                 }
 
+                puts 'Pressione qualquer tecla para continuar.'
+                STDIN.getch
                 menu()
-            elsif opcao == 3
+            elsif opcao == SEARCHITEM
                 print "Deseja listar itens por categoria? (S/N) "
                 buscarPorCategoria = gets.chomp().downcase
 
@@ -85,10 +99,12 @@ class StudyDiary
                     }
                 end
 
+                puts 'Pressione qualquer tecla para continuar.'
+                STDIN.getch
                 menu()
-            elsif opcao == 4
+            elsif opcao == EXIT
                 puts "Encerrando aplicação..."
-            elsif opcao == 5
+            elsif opcao == DELETE
                 print "Digite o Id do item que deverá ser excluído: "
                 idItem = gets.chomp()
 
@@ -97,7 +113,7 @@ class StudyDiary
                 db.close
 
                 menu()
-            elsif opcao == 6
+            elsif opcao == FINISHEDITEMS
                 db = SQLite3::Database.open "db/database.db"
                 db.results_as_hash = true
                 itens = db.execute "SELECT ID, TITULO, CATEGORIA, DESCRICAO, STATUSDIARIO FROM Diario WHERE STATUSDIARIO = 'CONCLUIDO'"
@@ -108,7 +124,7 @@ class StudyDiary
                 }
 
                 menu()
-            elsif opcao == 7
+            elsif opcao == FINISHITEM
                 print "Digite o Id do item que deverá ser finalizado:  "
                 idItemFinalizado = gets.chomp()
 
