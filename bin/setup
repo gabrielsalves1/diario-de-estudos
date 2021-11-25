@@ -11,12 +11,12 @@ puts "\n== Criando banco de dados =="
 begin
 db = SQLite3::Database.open "db/database.db"
 db.execute <<~SQL
-CREATE TABLE IF NOT EXISTS Diario(
+CREATE TABLE IF NOT EXISTS Diary(
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    TITULO varchar(100),
-    CATEGORIA varchar(100),
-    DESCRICAO varchar(255),
-    STATUSDIARIO varchar(30)
+    TITLE varchar(100),
+    CATEGORY varchar(100),
+    DESCRIPTIONDIARY varchar(255),
+    STATUSDIARY varchar(30)
 );
 SQL
 

@@ -1,24 +1,9 @@
 class StudyItem
+    attr_accessor :title, :category, :description, :statusDiary
     def initialize(item)
-        @titulo = item[:titulo]
-        @categoria = Category.new(item[:categoria])
-        @descricao = item[:descricao]
-        @statusDiario = item[:statusDiario]
-    end
-
-    def titulo
-        @titulo
-    end
-
-    def categoria
-        @categoria.nome
-    end
-
-    def descricao
-        @descricao
-    end
-
-    def statusDiario
-        @statusDiario
+        @title = item[:title]
+        @category = Category.new(item[:category])
+        @description = item[:description]
+        @statusDiary = false
     end
 end

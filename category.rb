@@ -1,9 +1,6 @@
 class Category
-    def initialize(categoria)
-        @categoria = categoria
-    end
-
-    def nome
-        @categoria
+    attr_accessor :category
+    def initialize(category)
+        @category = category
     end
 end
